@@ -1,0 +1,32 @@
+def process_day(books, log, mode):
+    if mode == "w":
+        log = ""
+
+    for book in books:
+        log += book
+
+    return log
+
+
+day1 = ["Book A", "Book B"]
+day2 = ["Book C", "Book D"]
+day3 = ["Book E", "Book F"]
+
+log = ""
+
+log = process_day(day1, log, "w")
+log = process_day(day2, log, "w")
+log = process_day(day3, log, "w")
+
+print("Original Program Output:")
+print(log)
+
+print("\nCorrected Program Output:")
+
+corrected_log = ""
+
+for books in [day1, day2, day3]:
+    for book in books:
+        corrected_log += book + "\n"
+
+print(corrected_log)
