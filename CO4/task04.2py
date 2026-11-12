@@ -1,0 +1,38 @@
+Python
+Run
+def save_returns(books):
+    try:
+        with open("returns.log", "a") as log:
+            for book in books:
+                if book.strip():
+                    log.write(book.strip() + "\n")
+
+    except OSError as error:
+        with open("error.log", "a") as error_file:
+            error_file.write("Log writing error: " + str(error) + "\n")
+
+
+def process(day_file):
+    try:
+        with open(day_file, "r") as file:
+            books = file.read().splitlines()
+
+        save_returns(books)
+        print(day_file, "processed successfully")
+
+    except FileNotFoundError as error:
+        print("Missing file:", day_file)
+
+        try:
+            with open("error.log", "a") as error_file:
+                error_file.write("File error: " + str(error) + "\n")
+        except OSError:
+            print("Unable to save error log")
+
+    except OSError as error:
+        print("File processing error:", error)
+
+        try:
+            with open("error.log", "a") as error_file:
+                error_file.write("Processing error: " + str(error) + "\n")
+        except OSError:
