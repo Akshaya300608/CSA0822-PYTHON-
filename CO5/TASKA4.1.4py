@@ -1,0 +1,12 @@
+Python
+Run
+import pdb
+
+pm25 = 48
+
+pdb.set_trace()
+
+if pm25 >= 0:
+    print("Valid reading")
+else:
+    print("Invalid reading")
