@@ -1,0 +1,37 @@
+Python
+Run
+
+import csv
+import io
+import sqlite3
+
+data = """station,date,pm25
+Adyar,2026-10-01,40
+Adyar,2026-10-01,60
+Adyar,2026-10-02,50
+Guindy,2026-10-01,80
+Guindy,2026-10-01,100
+Guindy,2026-10-02,120
+"""
+
+# Method 1: Python loops with CSV
+reader = csv.DictReader(io.StringIO(data))
+groups = {}
+
+for row in reader:
+    key = (row["station"], row["date"])
+    value = float(row["pm25"])
+
+    if key not in groups:
+        groups[key] = []
+
+    groups[key].append(value)
+
+loop_result = {}
+
+for key, values in groups.items():
+    loop_result[key] = sum(values) / len(values)
+
+print("Python Loop Result:")
+for key, value in sorted(loop_result.items()):
+    print(key, round(value, 2))
