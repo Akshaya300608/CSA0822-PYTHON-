@@ -1,0 +1,76 @@
+import csv
+import io
+import sqlite3
+
+data = """station,date,pm25
+Adyar,2026-10-01,40
+Adyar,2026-10-01,60
+Adyar,2026-10-02,50
+Guindy,2026-10-01,80
+Guindy,2026-10-01,100
+Guindy,2026-10-02,120
+"""
+
+# METHOD 1: Python Loops
+reader = csv.DictReader(io.StringIO(data))
+groups = {}
+
+for row in reader:
+    key = (row["station"], row["date"])
+    value = float(row["pm25"])
+
+    if key not in groups:
+        groups[key] = []
+
+    groups[key].append(value)
+
+loop_result = {}
+
+for key in groups:
+    loop_result[key] = sum(groups[key]) / len(groups[key])
+
+print("PYTHON LOOP RESULT:")
+for key in sorted(loop_result):
+    print(key, round(loop_result[key], 2))
+
+
+# METHOD 2: SQL
+con = sqlite3.connect(":memory:")
+
+con.execute("""
+CREATE TABLE readings (
+station TEXT,
+date TEXT,
+pm25 REAL
+)
+""")
+
+reader = csv.DictReader(io.StringIO(data))
+
+records = [
+    (r["station"], r["date"], float(r["pm25"]))
+    for r in reader
+]
+
+con.executemany(
+    "INSERT INTO readings VALUES (?, ?, ?)",
+    records
+)
+
+sql_result = con.execute("""
+SELECT station, date, AVG(pm25)
+FROM readings
+GROUP BY station, date
+ORDER BY station, date
+""").fetchall()
+
+print("\nSQL RESULT:")
+for row in sql_result:
+    print((row[0], row[1]), round(row[2], 2))
+
+print("\nRESULT MATCH:",
+      loop_result == {
+          (s, d): avg for s, d, avg in sql_result
+      })
+
+con.close()
