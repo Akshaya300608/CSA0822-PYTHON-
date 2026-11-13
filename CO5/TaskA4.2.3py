@@ -1,0 +1,16 @@
+import time
+
+def calculate():
+    total = 0
+    for i in range(100000):
+        total += i
+    return total
+
+start = time.perf_counter()
+
+result = calculate()
+
+end = time.perf_counter()
+
+print("Calculation Result:", result)
+print("Execution Time:", round(end - start, 6), "seconds")
