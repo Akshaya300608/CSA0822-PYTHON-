@@ -1,0 +1,8 @@
+Python
+Run
+pm25 = -5
+
+print("Original PM2.5:", pm25)
+
+if pm25 < 0:
+    print("Invalid PM2.5 reading")
