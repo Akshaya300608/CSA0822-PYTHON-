@@ -1,0 +1,38 @@
+Python
+Run
+import sqlite3
+
+con = sqlite3.connect(":memory:")
+
+con.execute("""
+CREATE TABLE readings (
+    station TEXT,
+    day TEXT,
+    pm25 REAL
+)
+""")
+
+con.execute(
+    "INSERT INTO readings VALUES (?, ?, ?)",
+    ("Adyar", "2026-10-01", 48.0)
+)
+
+def chatbot(question):
+    question = question.lower()
+
+    if "pm2.5" in question and "adyar" in question:
+        result = con.execute(
+            "SELECT pm25 FROM readings WHERE station = ?",
+            ("Adyar",)
+        ).fetchone()
+
+        if result:
+            return "PM2.5 in Adyar is " + str(result[0])
+
+        return "No reading available"
+
+    return "Sorry, I cannot understand your question"
+
+question = "What is the PM2.5 in Adyar today?"
+
+print("User:", question)
