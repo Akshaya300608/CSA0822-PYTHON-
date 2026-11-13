@@ -1,0 +1,38 @@
+Python
+Run
+
+POSITIVE = {"good", "clean", "fast", "helpful", "improved"}
+NEGATIVE = {"bad", "dirty", "slow", "rude", "smoke", "broken"}
+NEGATORS = {"not", "never", "no"}
+
+def score(text):
+    words = text.lower().replace(".", " ").replace(",", " ").split()
+    total = 0
+
+    for i, word in enumerate(words):
+        if word in POSITIVE:
+            value = 1
+        elif word in NEGATIVE:
+            value = -1
+        else:
+            value = 0
+
+        if i > 0 and words[i - 1] in NEGATORS:
+            value = -value
+
+        total += value
+
+    return total
+
+
+def label(text):
+    s = score(text)
+    return "positive" if s > 0 else "negative" if s < 0 else "neutral"
+
+
+complaints = [
+    "Good, clean air again!",
+    "The service is not not good.",
+    "The service is good but the air is dirty.",
+    "The factory smoke is bad."
+]
