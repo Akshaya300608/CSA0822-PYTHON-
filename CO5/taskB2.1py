@@ -1,0 +1,37 @@
+Python
+Run
+
+import csv
+import io
+
+required_columns = ["station", "date", "pm25"]
+
+def test_csv(name, content):
+    print("\nTest:", name)
+
+    if content == "":
+        print("Error: Empty file")
+        return
+
+    reader = csv.DictReader(io.StringIO(content))
+
+    if reader.fieldnames is None:
+        print("Error: Missing header")
+        return
+
+    if not all(col in reader.fieldnames for col in required_columns):
+        print("Error: Required column is missing or delimiter is incorrect")
+        return
+
+    rows = list(reader)
+
+    if not rows:
+        print("No data records found")
+    else:
+        print("Data:", rows)
+
+
+# Test 1: Missing column
+missing_column = """station,date
+Adyar,2026-10-01
+"""
