@@ -1,0 +1,7 @@
+Python
+Run
+pm25 = 48
+
+assert pm25 >= 0, "PM2.5 cannot be negative"
+
+print("Reading is valid")
