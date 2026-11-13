@@ -1,0 +1,14 @@
+Python
+Run
+# Convert Fahrenheit to Celsius
+fahrenheit = 86
+celsius = (fahrenheit - 32) * 5 / 9
+print("Temperature in Celsius:", round(celsius, 2))
+
+# Remove invalid readings
+pm25 = 48
+
+if pm25 < 0 or pm25 > 999:
+    print("Invalid reading")
+else:
+    print("Valid reading")
