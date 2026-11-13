@@ -1,0 +1,38 @@
+Python
+Run
+
+import sqlite3
+
+# Cleaned data from B1.1
+clean = [
+    ("Adyar", "2026-10-01", 48.0),
+    ("Guindy", "2026-10-01", 95.0),
+    ("Guindy", "2026-10-03", 121.0)
+]
+
+# Create database
+conn = sqlite3.connect(":memory:")
+cursor = conn.cursor()
+
+# Create table
+cursor.execute("""
+CREATE TABLE Readings (
+    station TEXT,
+    reading_date TEXT,
+    pm25 REAL
+)
+""")
+
+# Insert multiple records
+cursor.executemany(
+    "INSERT INTO Readings VALUES (?, ?, ?)",
+    clean
+)
+
+# Query 1: Average PM2.5 in Adyar
+cursor.execute("""
+SELECT AVG(pm25)
+FROM Readings
+WHERE station = 'Adyar'
+AND reading_date LIKE '2026-10%'
+""")
