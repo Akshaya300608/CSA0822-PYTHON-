@@ -1,0 +1,13 @@
+Python
+Run
+import timeit
+
+code = """
+total = 0
+for i in range(1000):
+    total += i
+"""
+
+result = timeit.timeit(code, number=1000)
+
+print("Total execution time:", round(result, 5), "seconds")
