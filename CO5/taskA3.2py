@@ -1,0 +1,27 @@
+Example:
+Python
+Run
+readings = [
+    ("Adyar", "2026-10-01", 20),
+    ("Adyar", "2026-10-01", 40),
+    ("Adyar", "2026-10-01", 60)
+]
+
+summary = {}
+
+for station, date, pm25 in readings:
+    key = (station, date)
+
+    if key not in summary:
+        summary[key] = [pm25, pm25, 0, 0]
+
+    summary[key][0] = min(summary[key][0], pm25)
+    summary[key][1] = max(summary[key][1], pm25)
+    summary[key][2] += pm25
+    summary[key][3] += 1
+
+for key, values in summary.items():
+    mean = values[2] / values[3]
+
+    print(key, values[0], values[1],
+          round(mean, 2), values[3])
