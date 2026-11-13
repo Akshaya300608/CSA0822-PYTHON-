@@ -1,0 +1,38 @@
+Python
+Run
+
+import csv
+import io
+import sqlite3
+import time
+
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+def generate_csv(station_count):
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["station", "date", "hour", "pm25"])
+
+    for s in range(1, station_count + 1):
+        station = "Station" + str(s)
+
+        for hour_no in range(8760):
+            day_no = hour_no // 24 + 1
+            hour = hour_no % 24
+
+            date = "2026-" + str((day_no - 1) // 30 + 1).zfill(2) + "-" + str((day_no - 1) % 30 + 1).zfill(2)
+
+            pm25 = 30 + (s * 2) + (hour % 24)
+
+            writer.writerow([station, date, hour, pm25])
+
+    return output.getvalue()
+
+
+def python_method(csv_data):
+    reader = csv.DictReader(io.StringIO(csv_data))
+    totals = {}
+    counts = {}
