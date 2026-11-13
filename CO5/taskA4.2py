@@ -1,0 +1,13 @@
+Python
+Run
+import time
+
+start = time.perf_counter()
+
+total = 0
+for i in range(100000):
+    total += i
+
+end = time.perf_counter()
+
+print("Execution time:", round(end - start, 5), "seconds")
