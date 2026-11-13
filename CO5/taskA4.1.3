@@ -1,0 +1,12 @@
+Python
+Run
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+pm25 = -5
+
+if pm25 < 0:
+    logging.warning("Negative PM2.5 reading detected")
+else:
+    logging.info("Valid reading")
